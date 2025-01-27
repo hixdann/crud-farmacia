@@ -1,5 +1,6 @@
 package com.generation.farmacia.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -53,6 +55,11 @@ public class ProdutoController {
     String item){
         return ResponseEntity.ok(produtoRepository
             .findAllByItemContainingIgnoreCase(item));
+    }
+    
+    @GetMapping("/preco/{precoMin}/{precoMax}")
+    public List<Produto> buscarPorPreco(@PathVariable  BigDecimal precoMin, @PathVariable  BigDecimal precoMax) {
+        return produtoRepository.findAllByPrecoBetween(precoMin, precoMax);
     }
     
     @PostMapping
